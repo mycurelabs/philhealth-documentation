@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Unofficial eSOA example - NOT an official PhilHealth sample.
+  Valid against esoa/ESOA.dtd v0.5 (2025-02-17), checked with lxml.
+  All values are fictitious.
+
+  This is the eSOA of this site's shared example claim, the same stay as
+  eclaims-minimal.xml and cf4-sample.xml (see /reference/esoa-xml#sample):
+    pHciPan            H12345678     example facility accreditation number (PAN)
+    pHciTransmittalId  202609170001  the claim's CLAIM@pClaimNumber (our choice;
+                                     the DevKit doesn't say what it must equal, KI-53)
+    Stay               09-15-2026 01:00:00PM to 09-17-2026 03:00:00PM, dengue fever
+                       without warning signs (ICD-10 A90): a medical case, no procedure
+    Physician          1504-2400015-3 (LIFE GOES ON), the claim's only PROFESSIONALS
+                       entry, a dummy test provider
+    Drugs              the three MEDICINES of cf4-sample.xml, with the same codes,
+                       quantities and totals
+
+  Amounts (our choice, KI-53): the two PhilHealth amounts equal the CF2 BENEFITS
+  totals in eclaims-minimal.xml (pTotalHCIFees 7000.00, pTotalProfFees 3000.00;
+  together CASERATE@pCaseRateAmount 10000.00). CF2 says pEnoughBenefits="Y" (the
+  benefit covers the HCI and PF charges), so the charges equal the benefit and both
+  balances are 0.00. The patient is 52 and not a person with disability, so there
+  are no mandatory discounts, and no other funding source applies.
+
+  Arithmetic (see /reference/esoa-xml#sample-arithmetic):
+    SummaryOfFees charges     2500.00 + 1100.00 + 2950.00 + 0.00 + 450.00 + 0.00 = 7000.00
+    SummaryOfFees Balance     7000.00 - 0.00 (discounts) - 7000.00 (PhilHealth)
+                              - 0.00 (other funding) = 0.00
+    ProfessionalFees Balance  3000.00 - 0.00 (discounts) - 3000.00 (PhilHealth) = 0.00
+    Each ItemizedBillingItem  pTotalAmount = pUnitPrice x pQuantity
+    The items of each pCategory add up to that category's pChargesNetOfApplicableVat.
+-->
+<eSOA pHciPan="H12345678" pHciTransmittalId="202609170001">
+  <SummaryOfFees>
+    <RoomAndBoard>
+      <SummaryOfFee pChargesNetOfApplicableVat="2500.00" pSeniorCitizenDiscount="0.00" pPWDDiscount="0.00"
+                    pPCSO="0.00" pDSWD="0.00" pDOHMAP="0.00" pHMO="0.00"/>
+    </RoomAndBoard>
+    <DrugsAndMedicine>
+      <SummaryOfFee pChargesNetOfApplicableVat="1100.00" pSeniorCitizenDiscount="0.00" pPWDDiscount="0.00"
+                    pPCSO="0.00" pDSWD="0.00" pDOHMAP="0.00" pHMO="0.00"/>
+    </DrugsAndMedicine>
+    <LaboratoryAndDiagnostic>
+      <SummaryOfFee pChargesNetOfApplicableVat="2950.00" pSeniorCitizenDiscount="0.00" pPWDDiscount="0.00"
+                    pPCSO="0.00" pDSWD="0.00" pDOHMAP="0.00" pHMO="0.00"/>
+    </LaboratoryAndDiagnostic>
+    <!-- No operation (medical case). The DTD still requires the element, so every amount is 0.00. -->
+    <OperatingRoomFees>
+      <SummaryOfFee pChargesNetOfApplicableVat="0.00" pSeniorCitizenDiscount="0.00" pPWDDiscount="0.00"
+                    pPCSO="0.00" pDSWD="0.00" pDOHMAP="0.00" pHMO="0.00"/>
+    </OperatingRoomFees>
+    <MedicalSupplies>
+      <SummaryOfFee pChargesNetOfApplicableVat="450.00" pSeniorCitizenDiscount="0.00" pPWDDiscount="0.00"
+                    pPCSO="0.00" pDSWD="0.00" pDOHMAP="0.00" pHMO="0.00"/>
+    </MedicalSupplies>
+    <!-- "Others" is required by the DTD even when the patient has no such charges. -->
+    <Others>
+      <SummaryOfFee pChargesNetOfApplicableVat="0.00" pSeniorCitizenDiscount="0.00" pPWDDiscount="0.00"
+                    pPCSO="0.00" pDSWD="0.00" pDOHMAP="0.00" pHMO="0.00"/>
+    </Others>
+    <!-- = CF2 BENEFITS@pTotalHCIFees in eclaims-minimal.xml (our choice, KI-53) -->
+    <PhilHealth pTotalCaseRateAmount="7000.00"/>
+    <Balance pAmount="0.00"/>
+  </SummaryOfFees>
+  <ProfessionalFees>
+    <ProfessionalFee>
+      <ProfessionalInfo pPAN="1504-2400015-3" pFirstName="LIFE" pMiddleName="GOES" pLastName="ON" pSuffixName=""/>
+      <SummaryOfFee pChargesNetOfApplicableVat="3000.00" pSeniorCitizenDiscount="0.00" pPWDDiscount="0.00"
+                    pPCSO="0.00" pDSWD="0.00" pDOHMAP="0.00" pHMO="0.00"/>
+    </ProfessionalFee>
+    <!-- = CF2 BENEFITS@pTotalProfFees in eclaims-minimal.xml (our choice, KI-53) -->
+    <PhilHealth pTotalCaseRateAmount="3000.00"/>
+    <Balance pAmount="0.00"/>
+  </ProfessionalFees>
+  <ItemizedBillingItems>
+    <!-- RoomAndBoard: 1250.00 + 1250.00 = 2500.00 (item 1897 from the eSOA Item Library).
+         One line per day, for 09-15 and 09-16 (our choice; the DevKit doesn't say how to count days). -->
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="1897" pItemName="ROOM AND BOARD"
+                         pUnitOfMeasurement="DAY" pUnitPrice="1250.00" pQuantity="1" pTotalAmount="1250.00"
+                         pCategory="RoomAndBoard"/>
+    <ItemizedBillingItem pServiceDate="09-16-2026" pItemCode="1897" pItemName="ROOM AND BOARD"
+                         pUnitOfMeasurement="DAY" pUnitPrice="1250.00" pQuantity="1" pTotalAmount="1250.00"
+                         pCategory="RoomAndBoard"/>
+    <!-- DrugsAndMedicine: 600.00 + 200.00 + 300.00 = 1100.00
+         The same drugs as cf4-sample.xml MEDICINES: 30-character Drug Codes from the Medicine
+         Library, same quantities and totals. Unit of measurement left blank for drugs (Annex D). -->
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="09SOD0000000000SOL3200247BOTTL"
+                         pItemName="0.9% SODIUM CHLORIDE SOLUTION 1 L BOTTLE"
+                         pUnitOfMeasurement="" pUnitPrice="150.00" pQuantity="4" pTotalAmount="600.00"
+                         pCategory="DrugsAndMedicine"/>
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="PARAC0000000047TAB490000000000"
+                         pItemName="PARACETAMOL 500 mg TABLET"
+                         pUnitOfMeasurement="" pUnitPrice="10.00" pQuantity="20" pTotalAmount="200.00"
+                         pCategory="DrugsAndMedicine"/>
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="ESOM10000000036CAPSU0000000000"
+                         pItemName="OMEPRAZOLE 40 mg CAPSULE"
+                         pUnitOfMeasurement="" pUnitPrice="50.00" pQuantity="6" pTotalAmount="300.00"
+                         pCategory="DrugsAndMedicine"/>
+    <!-- LaboratoryAndDiagnostic: 300.00 + 150.00 + 150.00 + 1000.00 + 600.00 + 300.00 + 300.00 + 150.00 = 2950.00
+         "CBC with platelet count every 12 hours" (CF4 course in the ward): items 1545 and 1566,
+         four draws (one on 09-15, two on 09-16, one on 09-17). -->
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="1545" pItemName="HEMATOLOGY: CBC"
+                         pUnitOfMeasurement="" pUnitPrice="300.00" pQuantity="1" pTotalAmount="300.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="1566" pItemName="HEMATOLOGY: PLATELET COUNT"
+                         pUnitOfMeasurement="" pUnitPrice="150.00" pQuantity="1" pTotalAmount="150.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="1704" pItemName="MICROSCOPY: URINE-URINALYSIS"
+                         pUnitOfMeasurement="" pUnitPrice="150.00" pQuantity="1" pTotalAmount="150.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <!-- A test that is not in the Item Library: blank code, complete description (Annex D). -->
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="" pItemName="DENGUE NS1 ANTIGEN RAPID TEST"
+                         pUnitOfMeasurement="" pUnitPrice="1000.00" pQuantity="1" pTotalAmount="1000.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <ItemizedBillingItem pServiceDate="09-16-2026" pItemCode="1545" pItemName="HEMATOLOGY: CBC"
+                         pUnitOfMeasurement="" pUnitPrice="300.00" pQuantity="2" pTotalAmount="600.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <ItemizedBillingItem pServiceDate="09-16-2026" pItemCode="1566" pItemName="HEMATOLOGY: PLATELET COUNT"
+                         pUnitOfMeasurement="" pUnitPrice="150.00" pQuantity="2" pTotalAmount="300.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <ItemizedBillingItem pServiceDate="09-17-2026" pItemCode="1545" pItemName="HEMATOLOGY: CBC"
+                         pUnitOfMeasurement="" pUnitPrice="300.00" pQuantity="1" pTotalAmount="300.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <ItemizedBillingItem pServiceDate="09-17-2026" pItemCode="1566" pItemName="HEMATOLOGY: PLATELET COUNT"
+                         pUnitOfMeasurement="" pUnitPrice="150.00" pQuantity="1" pTotalAmount="150.00"
+                         pCategory="LaboratoryAndDiagnostic"/>
+    <!-- MedicalSupplies: 150.00 + 200.00 + 25.00 + 50.00 + 25.00 = 450.00
+         IV line on admission; one syringe per blood draw, dated by issuance (Annex D). -->
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="352" pItemName="IV CATHETER G. 20"
+                         pUnitOfMeasurement="PIECE" pUnitPrice="150.00" pQuantity="1" pTotalAmount="150.00"
+                         pCategory="MedicalSupplies"/>
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="313" pItemName="I.V. ADMINISTRATION SET, ADULT (MACROSET)"
+                         pUnitOfMeasurement="SET" pUnitPrice="200.00" pQuantity="1" pTotalAmount="200.00"
+                         pCategory="MedicalSupplies"/>
+    <ItemizedBillingItem pServiceDate="09-15-2026" pItemCode="117" pItemName="SYRINGE DISP,5CC G. 23 X 1, LUER LOCK"
+                         pUnitOfMeasurement="PIECE" pUnitPrice="25.00" pQuantity="1" pTotalAmount="25.00"
+                         pCategory="MedicalSupplies"/>
+    <ItemizedBillingItem pServiceDate="09-16-2026" pItemCode="117" pItemName="SYRINGE DISP,5CC G. 23 X 1, LUER LOCK"
+                         pUnitOfMeasurement="PIECE" pUnitPrice="25.00" pQuantity="2" pTotalAmount="50.00"
+                         pCategory="MedicalSupplies"/>
+    <ItemizedBillingItem pServiceDate="09-17-2026" pItemCode="117" pItemName="SYRINGE DISP,5CC G. 23 X 1, LUER LOCK"
+                         pUnitOfMeasurement="PIECE" pUnitPrice="25.00" pQuantity="1" pTotalAmount="25.00"
+                         pCategory="MedicalSupplies"/>
+  </ItemizedBillingItems>
+</eSOA>

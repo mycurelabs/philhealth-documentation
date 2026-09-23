@@ -1,0 +1,14 @@
+<CF5 pHospitalCode="300829">
+	<DRGCLAIM ClaimNumber="2601" PrimaryCode="A01.0" NewBornAdmWeight="" Remarks="">
+		<SECONDARYDIAGS>
+			<SECONDARYDIAG SecondaryCode="A03.0" Remarks="" />
+		</SECONDARYDIAGS>
+		<PROCEDURES>
+			<PROCEDURE RvsCode="219ss20" Laterality="" Ext1="" Ext2="" Remarks="" />
+			<PROCEDURE RvsCode="69000" Laterality="" Ext1="" Ext2="" Remarks="" />
+			<PROCEDURE RvsCode="41108" Laterality="" Ext1="" Ext2="" Remarks="" />
+			<PROCEDURE RvsCode="93631" Laterality="" Ext1="" Ext2="" Remarks="" />
+			<PROCEDURE RvsCode="93631" Laterality="" Ext1="" Ext2="" Remarks="" />
+		</PROCEDURES>
+	</DRGCLAIM>
+</CF5>

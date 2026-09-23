@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Unofficial CF5 (DRG) example. NOT an official PhilHealth sample.
+  Written for the PhilHealth PECWS 3.0 developer docs (see /reference/cf5-xml).
+
+  Same claim as eclaims-minimal.xml:
+  - pHospitalCode "123456" = eCLAIMS@pHospitalCode (DRG error code 509).
+  - ClaimNumber "202609170001" = CLAIM@pClaimNumber (DRG error code 222).
+    Using the hospital's own claim number is our recommendation, not a
+    PhilHealth rule; the sources disagree (KI-45).
+  - PrimaryCode "A90" (dengue fever) = the ICDCODE in the eClaims XML.
+  - No secondary diagnosis and no procedure: a medical case whose eClaims XML
+    has no RVS code. Both containers are still required, so they are sent empty.
+  - NewBornAdmWeight is empty because the patient is an adult.
+  - If you add a PROCEDURE, send Laterality="N" when no side of the body
+    applies (Guide rev. 20250217, KI-05). Ext1/Ext2 take 1-9; whether blank
+    values are accepted is not documented (KI-63).
+
+  Valid against the standalone cf5/CF5.dtd (revision 20240604), checked with lxml.
+  NOT valid against the "DRG E-Claims DTD" v1.3 printed in the Implementation
+  Guide p. 17, which requires exactly one SECONDARYDIAG and at least one
+  PROCEDURE (KI-06). This is the case KI-06 says to confirm, so send a file
+  like this one to validateCF5 early.
+-->
+<CF5 pHospitalCode="123456">
+  <DRGCLAIM ClaimNumber="202609170001" PrimaryCode="A90" NewBornAdmWeight="" Remarks="">
+    <SECONDARYDIAGS/>
+    <PROCEDURES/>
+  </DRGCLAIM>
+</CF5>

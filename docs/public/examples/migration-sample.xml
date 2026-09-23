@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE eCLAIMS SYSTEM "eClaimsXmlForDataMigration.dtd">
+<!--
+  UNOFFICIAL example of an e-Claims XML file for data migration.
+  Written for this documentation site; it is not a PhilHealth sample.
+
+  Validity: checked against eClaimsXmlForDataMigration.dtd (v1.0.0.1,
+  2024-12-10) with Java's validating parser (JAXP) and with lxml against a
+  patched copy of the DTD. A plain libxml2 check (lxml, xmllint, PHP) fails
+  on the DTD itself, not on this file. See /known-issues#ki-43.
+
+  Values: the site's shared sample scenario (the same claim as
+  /examples/eclaims-minimal.xml). They are placeholders, not real data.
+  - PIN 072007271094 and the member's name and birth date are the
+    Implementation Guide's sample values (p. 29). No test member exists.
+  - Doctor 1504-2400015-3 (LIFE GOES ON) and employer 110474000002
+    (JOSE A TERAMOTO ODM) come from "Dummy Health Care Providers and
+    Employers.pdf".
+  - pClaimSeriesLhio 260917990000101 is an illustrative value. A real one
+    comes from getUploadedClaimsMap.
+  - pEncryptionUsed="N" assumes that N means "not encrypted". The DevKit
+    defines N, C and P nowhere. See /known-issues#ki-54.
+
+  Before handing this file to another provider, encrypt the WHOLE file with
+  the health facility's cipher key (Annex A procedure).
+-->
+<eCLAIMS
+    pUserName=":SAMPLE-CERT-ID"
+    pUserPassword=""
+    pHospitalCode="123456"
+    pHospitalEmail="eclaims@samplehospital.example"
+    pServiceProvider="SAMPLE HIS">
+  <eTRANSMITTAL
+      pHospitalTransmittalNo="TR20260917001"
+      pTotalClaims="1">
+    <CLAIM
+        pClaimNumber="202609170001"
+        pTrackingNumber=""
+        pPhilhealthClaimType="ALL-CASE-RATE"
+        pPatientType="I"
+        pIsEmergency="N"
+        pClaimSeriesLhio="260917990000101">
+      <CF1
+          pMemberPIN="072007271094"
+          pMemberLastName="DELA CRUZ"
+          pMemberFirstName="JUAN"
+          pMemberSuffix=""
+          pMemberMiddleName="OCAMPO"
+          pMemberBirthDate="09-19-1973"
+          pMemberShipType="S"
+          pMailingAddress="123 SAMPLE STREET, BARANGAY UNO, QUEZON CITY"
+          pZipCode="1100"
+          pMemberSex="M"
+          pLandlineNo=""
+          pMobileNo=""
+          pEmailAddress=""
+          pPatientIs="M"
+          pPatientPIN="072007271094"
+          pPatientLastName="DELA CRUZ"
+          pPatientFirstName="JUAN"
+          pPatientSuffix=""
+          pPatientMiddleName="OCAMPO"
+          pPatientBirthDate="09-19-1973"
+          pPatientSex="M"
+          pPEN="110474000002"
+          pEmployerName="JOSE A TERAMOTO ODM"/>
+      <CF2
+          pPatientReferred="N"
+          pReferredIHCPAccreCode=""
+          pAdmissionDate="09-15-2026"
+          pAdmissionTime="01:00:00PM"
+          pDischargeDate="09-17-2026"
+          pDischargeTime="03:00:00PM"
+          pDisposition="I"
+          pExpiredDate=""
+          pExpiredTime=""
+          pReferralIHCPAccreCode=""
+          pReferralReasons=""
+          pAccommodationType="N"
+          pHasAttachedSOA="Y">
+        <DIAGNOSIS pAdmissionDiagnosis="DENGUE FEVER">
+          <DISCHARGE pDischargeDiagnosis="DENGUE FEVER WITHOUT WARNING SIGNS">
+            <ICDCODE pICDCode="A90"/>
+          </DISCHARGE>
+        </DIAGNOSIS>
+        <!-- SPECIAL is required by the DTD even when it is empty.
+             A newborn claim would carry NCP here, and in this format NCP also
+             requires pNewbornHearingRegistryNo and
+             pNewbornHearingScreeningTestResult (P, R or X; undefined, see
+             /known-issues#ki-10). Repetitive procedures use repeated
+             SESSIONS elements; there is no SESSION element (/known-issues#ki-37). -->
+        <SPECIAL/>
+        <PROFESSIONALS
+            pDoctorAccreCode="1504-2400015-3"
+            pDoctorLastName="ON"
+            pDoctorFirstName="LIFE"
+            pDoctorMiddleName="GOES"
+            pDoctorSuffix=""
+            pWithCoPay="N"
+            pDoctorCoPay=""
+            pDoctorSignDate="09-17-2026"/>
+        <CONSUMPTION pEnoughBenefits="Y">
+          <BENEFITS
+              pTotalHCIFees="7000.00"
+              pTotalProfFees="3000.00"
+              pGrandTotal="10000.00"/>
+        </CONSUMPTION>
+        <APR>
+          <APRBYPATSIG pDateSigned="09-17-2026"/>
+        </APR>
+      </CF2>
+      <ALLCASERATE>
+        <CASERATE
+            pCaseRateCode="CR0001"
+            pICDCode="A90"
+            pRVSCode=""
+            pCaseRateAmount="10000.00"/>
+      </ALLCASERATE>
+      <!-- Supporting documents travel INSIDE the file as base64 text,
+           instead of DOCUMENT/@pDocumentURL links. A real export embeds every
+           document of the claim; to stay short, this example embeds only the
+           CSF and the CF5 (the uploaded claim also had ESA and CF4). -->
+      <OFFLINEDOCUMENTS>
+        <!-- A 594-byte placeholder PDF whose only text is "SAMPLE CSF - NOT REAL". -->
+        <OFFLINEDOCUMENT pDocumentType="CSF" pMimeType="application/pdf" pEncryptionUsed="N">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCAyMDAgNjBdIC9Db250ZW50cyA0IDAgUiAvUmVzb3VyY2VzIDw8IC9Gb250IDw8IC9GMSA1IDAgUiA+PiA+PiA+PgplbmRvYmoKNCAwIG9iago8PCAvTGVuZ3RoIDUxID4+CnN0cmVhbQpCVCAvRjEgMTAgVGYgMTAgMjUgVGQgKFNBTVBMRSBDU0YgLSBOT1QgUkVBTCkgVGogRVQKZW5kc3RyZWFtCmVuZG9iago1IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0hlbHZldGljYSA+PgplbmRvYmoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjQwIDAwMDAwIG4gCjAwMDAwMDAzNDEgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA2IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgo0MTEKJSVFT0YK</OFFLINEDOCUMENT>
+        <!-- A 161-byte CF5 XML (valid against cf5/CF5.dtd): pHospitalCode 123456,
+             ClaimNumber 202609170001 (the same value as CLAIM@pClaimNumber,
+             see /known-issues#ki-45), PrimaryCode A90. -->
+        <OFFLINEDOCUMENT pDocumentType="CF5" pMimeType="application/xml" pEncryptionUsed="N">PENGNSBwSG9zcGl0YWxDb2RlPSIxMjM0NTYiPjxEUkdDTEFJTSBDbGFpbU51bWJlcj0iMjAyNjA5MTcwMDAxIiBQcmltYXJ5Q29kZT0iQTkwIiBOZXdCb3JuQWRtV2VpZ2h0PSIiIFJlbWFya3M9IiI+PFNFQ09OREFSWURJQUdTLz48UFJPQ0VEVVJFUy8+PC9EUkdDTEFJTT48L0NGNT4=</OFFLINEDOCUMENT>
+      </OFFLINEDOCUMENTS>
+    </CLAIM>
+  </eTRANSMITTAL>
+</eCLAIMS>

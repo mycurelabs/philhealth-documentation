@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  UNOFFICIAL example eClaims XML (one All Case Rates claim).
+  Written for the PhilHealth PECWS 3.0 developer docs; not a PhilHealth file.
+  Valid against eClaimsDef.dtd v1.9 (Java JAXP and the patched DTD, KI-43).
+
+  Placeholder and test values (the site's shared example claim):
+  - pUserName: ":" + your software certificate ID (revision 20241111).
+  - pHospitalCode "123456", member PIN "072007271094" and the member's name
+    and birth date come from the Implementation Guide sample (p. 29).
+  - Doctor 1504-2400015-3 (LIFE GOES ON) and employer 110474000002
+    (JOSE A TERAMOTO ODM) come from "Dummy Health Care Providers and Employers.pdf".
+  - CR0001 / 10000 are the Guide sample's case-rate values; get real values
+    from searchCaseRates.
+  - Document URLs use samplehospital.example (reserved .example domain). Each
+    file must be encrypted with PhilHealth's public key and served over HTTPS.
+-->
+<eCLAIMS
+    pUserName=":SAMPLE-CERT-ID"
+    pUserPassword=""
+    pHospitalCode="123456"
+    pHospitalEmail="eclaims@samplehospital.example"
+    pServiceProvider="SAMPLE HIS">
+  <eTRANSMITTAL
+      pHospitalTransmittalNo="TR20260917001"
+      pTotalClaims="1">
+    <CLAIM
+        pClaimNumber="202609170001"
+        pTrackingNumber=""
+        pPhilhealthClaimType="ALL-CASE-RATE"
+        pPatientType="I"
+        pIsEmergency="N">
+      <CF1
+          pMemberPIN="072007271094"
+          pMemberLastName="DELA CRUZ"
+          pMemberFirstName="JUAN"
+          pMemberSuffix=""
+          pMemberMiddleName="OCAMPO"
+          pMemberBirthDate="09-19-1973"
+          pMemberShipType="S"
+          pMailingAddress="123 SAMPLE STREET, BARANGAY UNO, QUEZON CITY"
+          pZipCode="1100"
+          pMemberSex="M"
+          pLandlineNo=""
+          pMobileNo=""
+          pEmailAddress=""
+          pPatientIs="M"
+          pPatientPIN="072007271094"
+          pPatientLastName="DELA CRUZ"
+          pPatientFirstName="JUAN"
+          pPatientSuffix=""
+          pPatientMiddleName="OCAMPO"
+          pPatientBirthDate="09-19-1973"
+          pPatientSex="M"
+          pPEN="110474000002"
+          pEmployerName="JOSE A TERAMOTO ODM"/>
+      <CF2
+          pPatientReferred="N"
+          pReferredIHCPAccreCode=""
+          pAdmissionDate="09-15-2026"
+          pAdmissionTime="01:00:00PM"
+          pDischargeDate="09-17-2026"
+          pDischargeTime="03:00:00PM"
+          pDisposition="I"
+          pExpiredDate=""
+          pExpiredTime=""
+          pReferralIHCPAccreCode=""
+          pReferralReasons=""
+          pAccommodationType="N"
+          pHasAttachedSOA="Y">
+        <DIAGNOSIS pAdmissionDiagnosis="DENGUE FEVER">
+          <DISCHARGE pDischargeDiagnosis="DENGUE FEVER WITHOUT WARNING SIGNS">
+            <ICDCODE pICDCode="A90"/>
+          </DISCHARGE>
+        </DIAGNOSIS>
+        <SPECIAL/>
+        <PROFESSIONALS
+            pDoctorAccreCode="1504-2400015-3"
+            pDoctorLastName="ON"
+            pDoctorFirstName="LIFE"
+            pDoctorMiddleName="GOES"
+            pDoctorSuffix=""
+            pWithCoPay="N"
+            pDoctorCoPay=""
+            pDoctorSignDate="09-17-2026"/>
+        <CONSUMPTION pEnoughBenefits="Y">
+          <BENEFITS
+              pTotalHCIFees="7000.00"
+              pTotalProfFees="3000.00"
+              pGrandTotal="10000.00"/>
+        </CONSUMPTION>
+      </CF2>
+      <ALLCASERATE>
+        <CASERATE
+            pCaseRateCode="CR0001"
+            pICDCode="A90"
+            pRVSCode=""
+            pCaseRateAmount="10000.00"/>
+      </ALLCASERATE>
+      <DOCUMENTS>
+        <DOCUMENT
+            pDocumentType="CSF"
+            pDocumentURL="https://files.samplehospital.example/eclaims/202609170001/CSF.enc"/>
+        <DOCUMENT
+            pDocumentType="ESA"
+            pDocumentURL="https://files.samplehospital.example/eclaims/202609170001/ESA.enc"/>
+        <DOCUMENT
+            pDocumentType="CF4"
+            pDocumentURL="https://files.samplehospital.example/eclaims/202609170001/CF4.enc"/>
+        <DOCUMENT
+            pDocumentType="CF5"
+            pDocumentURL="https://files.samplehospital.example/eclaims/202609170001/CF5.enc"/>
+      </DOCUMENTS>
+    </CLAIM>
+  </eTRANSMITTAL>
+</eCLAIMS>

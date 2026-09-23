@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Unofficial CF4 (Claim Form 4) example - NOT an official PhilHealth sample.
+  DTD-valid against cf4/CF4.dtd ("EPCB Document Type Definition Version 1.20"),
+  checked with lxml.
+
+  This is the site's shared example claim: member and patient JUAN OCAMPO DELA CRUZ
+  (PIN 072007271094, born 1973-09-19), admitted 2026-09-15 and discharged
+  2026-09-17 for dengue fever without warning signs. The diagnosis itself
+  (ICD-10 A90) travels in the eClaims XML (CF2), not in CF4.
+  - Dates use YYYY-MM-DD (CF4 data dictionary), not the MM-DD-YYYY used by eClaims XML.
+  - pEClaimId and pEClaimsTransmittalId repeat CLAIM@pClaimNumber (202609170001) and
+    eTRANSMITTAL@pHospitalTransmittalNo (TR20260917001) of the eClaims XML (our choice).
+  - Values marked "default" in the comments are the fixed values the data dictionary
+    requires "not part of the CF4, but requirement for XML Validation".
+  - Attributes the data dictionary leaves blank are sent as empty strings ("").
+    The DTD only requires that every attribute is present. Confirm with PhilHealth
+    (KI-55).
+  - The file is UTF-8. The DevKit does not name an encoding (KI-60).
+  - pUsername and pCertificationId hold the plain software certificate ID, as the
+    dictionary says. Whether the eClaims ":" prefix also applies here is not
+    documented (KI-55).
+  - PIN, accreditation number, certificate ID, claim IDs and amounts are fictitious.
+  - pGenericName is filled with the library description for readability (our choice;
+    the dictionary only requires it when the drug is not in lib_medicine).
+
+  The "no medicine" alternative is shown in a comment inside MEDICINES.
+-->
+<EPCB pUsername="SAMPLE-CERT-ID"
+      pPassword=""
+      pHciAccreNo="H12345678"
+      pEnlistTotalCnt=""
+      pProfileTotalCnt=""
+      pSoapTotalCnt=""
+      pEmrId=""
+      pCertificationId="SAMPLE-CERT-ID"
+      pHciTransmittalNumber="">
+
+  <!-- ===== ENLISTMENTS: patient identity and the claim link ===== -->
+  <ENLISTMENTS>
+    <ENLISTMENT pEClaimId="202609170001"
+                pEClaimsTransmittalId="TR20260917001"
+                pHciCaseNo="CF4-202609170001"
+                pHciTransNo="CF4-202609170001"
+                pEffYear="2026"
+                pEnlistStat="1"
+                pEnlistDate="2026-09-15"
+                pPackageType="A"
+                pMemPin="" pMemFname="" pMemMname="" pMemLname="" pMemExtname=""
+                pMemDob="" pMemCat="" pMemNcat=""
+                pPatientPin="072007271094"
+                pPatientFname="JUAN"
+                pPatientMname="OCAMPO"
+                pPatientLname="DELA CRUZ"
+                pPatientExtname=""
+                pPatientType="MM"
+                pPatientSex="M"
+                pPatientContactno="NA"
+                pPatientDob="1973-09-19"
+                pPatientAddbrgy="" pPatientAddmun="" pPatientAddprov=""
+                pPatientAddreg="" pPatientAddzipcode=""
+                pCivilStatus="U"
+                pWithConsent="X"
+                pWithLoa="X"
+                pWithDisability="X"
+                pDependentType="X"
+                pTransDate="2026-09-17"
+                pCreatedBy="ENCODER01"
+                pReportStatus="U"
+                pDeficiencyRemarks=""
+                pAvailFreeService="X"/>
+  </ENLISTMENTS>
+
+  <!-- ===== PROFILING: history and physical exam on admission ===== -->
+  <PROFILING>
+    <PROFILE pHciTransNo="CF4-202609170001" pHciCaseNo="CF4-202609170001"
+             pPatientPin="072007271094" pPatientType="" pMemPin=""
+             pProfDate="2026-09-15" pRemarks="" pEffYear="2026"
+             pProfileATC="CF4" pReportStatus="U" pDeficiencyRemarks="">
+      <OINFO pPatientPob="" pPatientAge="" pPatientOccupation="" pPatientEducation=""
+             pPatientReligion="" pPatientMotherMnln="" pPatientMotherMnmi=""
+             pPatientMotherFn="" pPatientMotherExtn="" pPatientMotherBday=""
+             pPatientFatherLn="" pPatientFatherMi="" pPatientFatherFn=""
+             pPatientFatherExtn="" pPatientFatherBday=""
+             pReportStatus="U" pDeficiencyRemarks=""/>
+      <MEDHIST pMdiseaseCode="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <!-- CF4 III.2.a Pertinent Past Medical History -->
+      <MHSPECIFIC pMdiseaseCode=""
+                  pSpecificDesc="HYPERTENSION SINCE 2018, MAINTAINED ON AMLODIPINE 5 MG ONCE A DAY"
+                  pReportStatus="U" pDeficiencyRemarks=""/>
+      <SURGHIST pSurgDesc="" pSurgDate="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <FAMHIST pMdiseaseCode="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <FHSPECIFIC pMdiseaseCode="" pSpecificDesc="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <SOCHIST pIsSmoker="" pNoCigpk="" pIsAdrinker="" pNoBottles="" pIllDrugUser=""
+               pReportStatus="U" pDeficiencyRemarks=""/>
+      <IMMUNIZATION pChildImmcode="" pYoungwImmcode="" pPregwImmcode="" pElderlyImmcode=""
+                    pOtherImm="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <!-- CF4 III.2.b OB/GYN history: male patient, so not applicable -->
+      <MENSHIST pMenarchePeriod="" pLastMensPeriod="" pPeriodDuration="" pMensInterval=""
+                pPadsPerDay="" pOnsetSexIc="" pBirthCtrlMethod="" pIsMenopause=""
+                pMenopauseAge="" pIsApplicable="N" pReportStatus="U" pDeficiencyRemarks=""/>
+      <PREGHIST pPregCnt="" pDeliveryCnt="" pDeliveryTyp="" pFullTermCnt="" pPrematureCnt=""
+                pAbortionCnt="" pLivChildrenCnt="" pWPregIndhyp="" pWFamPlan=""
+                pReportStatus="U" pDeficiencyRemarks=""/>
+      <!-- CF4 III.5 vital signs (same values as SOAP/PEPERT). Patient is 52, so a real BP is required. -->
+      <PEPERT pSystolic="120" pDiastolic="80" pHr="96" pRr="20" pTemp="38.9"
+              pHeight="168" pWeight="70.5" pVision="" pLength="" pHeadCirc=""
+              pReportStatus="U" pDeficiencyRemarks=""/>
+      <BLOODTYPE pBloodType="" pBloodRh="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <!-- CF4 III.5 General survey: 1 = Awake and alert -->
+      <PEGENSURVEY pGenSurveyId="1" pGenSurveyRem="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <!-- CF4 III.5 findings per system (IDs from lib_skin, lib_heent, lib_chest, lib_heart,
+           lib_abdomen, lib_neuro, lib_genitourinary). Skin 9 = Rashes/Petechiae;
+           every other system is "Essentially normal". -->
+      <PEMISC pSkinId="9" pHeentId="11" pChestId="6" pHeartId="5" pAbdomenId="7"
+              pNeuroId="6" pGuId="1" pRectalId="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <PESPECIFIC pSkinRem="" pHeentRem="" pChestRem="" pHeartRem="" pAbdomenRem=""
+                  pNeuroRem="" pRectalRem="" pGuRem="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <DIAGNOSTIC pDiagnosticId="0" pOthRemarks="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <MANAGEMENT pManagementId="0" pOthRemarks="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <ADVICE pRemarks="NA" pReportStatus="U" pDeficiencyRemarks=""/>
+      <NCDQANS pQid1_Yn="" pQid2_Yn="" pQid3_Yn="" pQid4_Yn="" pQid5_Ynx="" pQid6_Yn=""
+               pQid7_Yn="" pQid8_Yn="" pQid9_Yn="" pQid10_Yn="" pQid11_Yn="" pQid12_Yn=""
+               pQid13_Yn="" pQid14_Yn="" pQid15_Yn="" pQid16_Yn="" pQid17_Abcde=""
+               pQid18_Yn="" pQid19_Yn="" pQid19_Fbsmg="" pQid19_Fbsmmol="" pQid19_Fbsdate=""
+               pQid20_Yn="" pQid20_Choleval="" pQid20_Choledate="" pQid21_Yn=""
+               pQid21_Ketonval="" pQid21_Ketondate="" pQid22_Yn="" pQid22_Proteinval=""
+               pQid22_Proteindate="" pQid23_Yn="" pQid24_Yn=""
+               pReportStatus="U" pDeficiencyRemarks=""/>
+    </PROFILE>
+  </PROFILING>
+
+  <!-- ===== SOAPS: chief complaint, history of present illness, vital signs ===== -->
+  <SOAPS>
+    <SOAP pHciTransNo="CF4-202609170001" pHciCaseNo="CF4-202609170001"
+          pPatientPin="072007271094" pPatientType="MM" pMemPin=""
+          pSoapDate="2026-09-15" pEffYear="2026" pSoapATC="CF4"
+          pReportStatus="U" pDeficiencyRemarks="">
+      <!-- pSignsSymptoms: lib_chief_complaint IDs separated by ";"
+           (3 ANOREXIA, 18 HEADACHE, 26 MYALGIA, 37 FEVER) -->
+      <SUBJECTIVE pChiefComplaint="FEVER FOR 3 DAYS"
+                  pIllnessHistory="3 DAYS PRIOR TO ADMISSION, PATIENT HAD HIGH-GRADE FEVER UP TO 39.5 C WITH HEADACHE, MUSCLE PAINS AND POOR APPETITE. NO BLEEDING, NO ABDOMINAL PAIN AND NO PERSISTENT VOMITING. DENGUE NS1 ANTIGEN POSITIVE AT THE OPD. ADMITTED FOR HYDRATION AND MONITORING."
+                  pOtherComplaint=""
+                  pSignsSymptoms="3;18;26;37"
+                  pPainSite=""
+                  pReportStatus="U" pDeficiencyRemarks=""/>
+      <PEPERT pSystolic="120" pDiastolic="80" pHr="96" pRr="20" pTemp="38.9"
+              pHeight="168" pWeight="70.5" pVision="" pLength="" pHeadCirc=""
+              pReportStatus="U" pDeficiencyRemarks=""/>
+      <PEMISC pSkinId="9" pHeentId="11" pChestId="6" pHeartId="5" pAbdomenId="7"
+              pNeuroId="6" pGuId="1" pRectalId="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <PESPECIFIC pSkinRem="" pHeentRem="" pChestRem="" pHeartRem="" pAbdomenRem=""
+                  pNeuroRem="" pRectalRem="" pGuRem="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <!-- default: "000" = Essentially Well Individual (lib_icd), as the data dictionary
+           requires. The real diagnosis (A90) goes in the eClaims XML (CF2). -->
+      <ICDS pIcdCode="000" pReportStatus="U" pDeficiencyRemarks=""/>
+      <DIAGNOSTIC pDiagnosticId="0" pOthRemarks="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <MANAGEMENT pManagementId="0" pOthRemarks="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <ADVICE pRemarks="NA" pReportStatus="U" pDeficiencyRemarks=""/>
+    </SOAP>
+  </SOAPS>
+
+  <!-- ===== COURSEWARDS: CF4 IV Course in the ward (one row per date/order) ===== -->
+  <COURSEWARDS>
+    <COURSEWARD pHciCaseNo="CF4-202609170001" pHciTransNo="CF4-202609170001"
+                pDateAction="2026-09-15"
+                pDoctorsAction="ADMITTED TO WARD. CBC WITH PLATELET COUNT EVERY 12 HOURS. 0.9% SODIUM CHLORIDE 1 L IV AT 100 ML PER HOUR. PARACETAMOL 500 MG TABLET EVERY 4 HOURS AS NEEDED FOR FEVER. OMEPRAZOLE 40 MG CAPSULE TWICE A DAY. MONITOR FOR WARNING SIGNS."
+                pReportStatus="U" pDeficiencyRemarks=""/>
+    <COURSEWARD pHciCaseNo="CF4-202609170001" pHciTransNo="CF4-202609170001"
+                pDateAction="2026-09-16"
+                pDoctorsAction="AFEBRILE SINCE MORNING. PLATELET COUNT STABLE. NO WARNING SIGNS. CONTINUE IV FLUIDS AND MONITORING."
+                pReportStatus="U" pDeficiencyRemarks=""/>
+    <COURSEWARD pHciCaseNo="CF4-202609170001" pHciTransNo="CF4-202609170001"
+                pDateAction="2026-09-17"
+                pDoctorsAction="IMPROVED. TOLERATING ORAL FLUIDS. MAY GO HOME. FOLLOW-UP AT OPD AFTER 1 WEEK."
+                pReportStatus="U" pDeficiencyRemarks=""/>
+  </COURSEWARDS>
+
+  <!-- ===== LABRESULTS: not part of CF4; every test is required by the DTD,
+       so each one is sent as "not applicable" (pIsApplicable="N") ===== -->
+  <LABRESULTS>
+    <LABRESULT pHciCaseNo="" pPatientPin="" pPatientType="" pMemPin="" pEffYear="">
+      <CBC pHciTransNo="" pReferralFacility="" pLabDate="" pHematocrit="" pHemoglobinG=""
+           pHemoglobinMmol="" pMhcPg="" pMhcFmol="" pMchcGhb="" pMchcMmol="" pMcvUm=""
+           pMcvFl="" pWbc1000="" pWbc10="" pMyelocyte="" pNeutrophilsBnd=""
+           pNeutrophilsSeg="" pLymphocytes="" pMonocytes="" pEosinophils="" pBasophils=""
+           pPlatelet="" pDateAdded="" pIsApplicable="N" pModule="" pDiagnosticLabFee=""
+           pCoPay="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <URINALYSIS pHciTransNo="" pReferralFacility="" pLabDate="" pGravity="" pAppearance=""
+                  pColor="" pGlucose="" pProteins="" pKetones="" pPh="" pRbCells=""
+                  pWbCells="" pBacteria="" pCrystals="" pBladderCell="" pSquamousCell=""
+                  pTubularCell="" pBroadCasts="" pEpithelialCast="" pGranularCast=""
+                  pHyalineCast="" pRbcCast="" pWaxyCast="" pWcCast="" pAlbumin=""
+                  pPusCells="" pDateAdded="" pIsApplicable="N" pModule=""
+                  pDiagnosticLabFee="" pCoPay="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <CHESTXRAY pHciTransNo="" pReferralFacility="" pLabDate="" pFindings=""
+                 pRemarksFindings="" pObservation="" pRemarksObservation="" pDateAdded=""
+                 pIsApplicable="N" pModule="" pDiagnosticLabFee="" pCoPay=""
+                 pReportStatus="U" pDeficiencyRemarks=""/>
+      <SPUTUM pHciTransNo="" pReferralFacility="" pLabDate="" pDataCollection="X"
+              pFindings="" pRemarks="" pNoPlusses="" pDateAdded="" pIsApplicable="N"
+              pModule="" pDiagnosticLabFee="" pCoPay="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <LIPIDPROF pHciTransNo="" pReferralFacility="" pLabDate="" pLdl="" pHdl="" pTotal=""
+                 pCholesterol="" pTriglycerides="" pDateAdded="" pIsApplicable="N"
+                 pModule="" pDiagnosticLabFee="" pCoPay="" pReportStatus="U" pDeficiencyRemarks=""/>
+      <FBS pHciTransNo="" pReferralFacility="" pLabDate="" pGlucoseMg="" pGlucoseMmol=""
+           pDateAdded="" pIsApplicable="N" pModule="" pDiagnosticLabFee="" pCoPay=""
+           pReportStatus="U" pDeficiencyRemarks=""/>
+      <ECG pHciTransNo="" pReferralFacility="" pLabDate="" pFindings="" pRemarks=""
+           pDateAdded="" pIsApplicable="N" pModule="" pDiagnosticLabFee="" pCoPay=""
+           pReportStatus="U" pDeficiencyRemarks=""/>
+      <FECALYSIS pHciTransNo="" pReferralFacility="" pLabDate="" pColor="" pConsistency=""
+                 pRbc="" pWbc="" pOva="" pParasite="" pBlood="" pOccultBlood="" pPusCells=""
+                 pDateAdded="" pIsApplicable="N" pModule="" pDiagnosticLabFee="" pCoPay=""
+                 pReportStatus="U" pDeficiencyRemarks=""/>
+      <PAPSSMEAR pHciTransNo="" pReferralFacility="" pLabDate="" pFindings="" pImpression=""
+                 pDateAdded="" pIsApplicable="N" pModule="" pDiagnosticLabFee="" pCoPay=""
+                 pReportStatus="U" pDeficiencyRemarks=""/>
+      <OGTT pHciTransNo="" pReferralFacility="" pLabDate="" pExamFastingMg=""
+            pExamFastingMmol="" pExamOgttOneHrMg="" pExamOgttOneHrMmol=""
+            pExamOgttTwoHrMg="" pExamOgttTwoHrMmol="" pDateAdded="" pIsApplicable="N"
+            pModule="" pDiagnosticLabFee="" pCoPay="" pReportStatus="U" pDeficiencyRemarks=""/>
+    </LABRESULT>
+  </LABRESULTS>
+
+  <!-- ===== MEDICINES: CF4 V Drugs/Medicines ===== -->
+  <MEDICINES>
+    <!-- Drug code = Gen(09SOD) + Salt(00000) + Strength(00000) + Form(SOL32) + Unit(00247) + Package(BOTTL) -->
+    <MEDICINE pHciCaseNo="CF4-202609170001"
+              pHciTransNo="CF4-202609170001"
+              pDrugCode="09SOD0000000000SOL3200247BOTTL"
+              pGenericName="0.9% SODIUM CHLORIDE SOLUTION 1 L BOTTLE"
+              pGenericCode="09SOD"
+              pSaltCode="00000"
+              pStrengthCode="00000"
+              pFormCode="SOL32"
+              pUnitCode="00247"
+              pPackageCode="BOTTL"
+              pRoute="IV"
+              pQuantity="4"
+              pActualUnitPrice=""
+              pCoPayment=""
+              pTotalAmtPrice="600.00"
+              pInstructionQuantity=""
+              pInstructionStrength=""
+              pInstructionFrequency="100 ML PER HOUR"
+              pPrescPhysician=""
+              pIsApplicable="Y"
+              pDateAdded="2026-09-15"
+              pModule="CF4"
+              pReportStatus="U"
+              pDeficiencyRemarks=""/>
+    <!-- Drug code = Gen(PARAC) + Salt(00000) + Strength(00047) + Form(TAB49) + Unit(00000) + Package(00000) -->
+    <MEDICINE pHciCaseNo="CF4-202609170001"
+              pHciTransNo="CF4-202609170001"
+              pDrugCode="PARAC0000000047TAB490000000000"
+              pGenericName="PARACETAMOL 500 mg TABLET"
+              pGenericCode="PARAC"
+              pSaltCode="00000"
+              pStrengthCode="00047"
+              pFormCode="TAB49"
+              pUnitCode="00000"
+              pPackageCode="00000"
+              pRoute="ORAL"
+              pQuantity="20"
+              pActualUnitPrice=""
+              pCoPayment=""
+              pTotalAmtPrice="200.00"
+              pInstructionQuantity=""
+              pInstructionStrength=""
+              pInstructionFrequency="EVERY 4 HOURS AS NEEDED FOR FEVER"
+              pPrescPhysician=""
+              pIsApplicable="Y"
+              pDateAdded="2026-09-15"
+              pModule="CF4"
+              pReportStatus="U"
+              pDeficiencyRemarks=""/>
+    <!-- Drug code = Gen(ESOM1) + Salt(00000) + Strength(00036) + Form(CAPSU) + Unit(00000) + Package(00000) -->
+    <MEDICINE pHciCaseNo="CF4-202609170001"
+              pHciTransNo="CF4-202609170001"
+              pDrugCode="ESOM10000000036CAPSU0000000000"
+              pGenericName="OMEPRAZOLE 40 mg CAPSULE"
+              pGenericCode="ESOM1"
+              pSaltCode="00000"
+              pStrengthCode="00036"
+              pFormCode="CAPSU"
+              pUnitCode="00000"
+              pPackageCode="00000"
+              pRoute="ORAL"
+              pQuantity="6"
+              pActualUnitPrice=""
+              pCoPayment=""
+              pTotalAmtPrice="300.00"
+              pInstructionQuantity=""
+              pInstructionStrength=""
+              pInstructionFrequency="TWICE A DAY"
+              pPrescPhysician=""
+              pIsApplicable="Y"
+              pDateAdded="2026-09-15"
+              pModule="CF4"
+              pReportStatus="U"
+              pDeficiencyRemarks=""/>
+    <!--
+      No-medicine alternative: if no drug was given during this confinement, send exactly
+      one MEDICINE like this instead (values from CF4_FILES_UPDATE(02232021) and the data
+      dictionary rev. 4, p. 13-14). pIsApplicable="N" and pGenericName are our assumptions
+      (KI-55).
+
+    <MEDICINE pHciCaseNo="CF4-202609170001" pHciTransNo="CF4-202609170001"
+              pDrugCode="NOMED0000000000000000000000000"
+              pGenericName="DRUGS AND MEDICINES NOT NEEDED DURING THIS PARTICULAR EPISODE OF CARE"
+              pGenericCode="NOMED" pSaltCode="00000" pStrengthCode="00000" pFormCode="00000"
+              pUnitCode="00000" pPackageCode="00000" pRoute="-" pQuantity="0"
+              pActualUnitPrice="" pCoPayment="" pTotalAmtPrice="0.00"
+              pInstructionQuantity="" pInstructionStrength="" pInstructionFrequency="-"
+              pPrescPhysician="" pIsApplicable="N" pDateAdded="2026-09-15" pModule="CF4"
+              pReportStatus="U" pDeficiencyRemarks=""/>
+    -->
+  </MEDICINES>
+</EPCB>
